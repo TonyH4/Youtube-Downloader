@@ -100,7 +100,9 @@ namespace yt_downloader
 			if (Clipboard.ContainsText())
 			{
 				string clipboardText = Clipboard.GetText(TextDataFormat.UnicodeText);
-				if (clipboardText.StartsWith("https://www.youtube.com/watch?v"))
+				clipboardText = clipboardText.Replace("http://", "https://");
+				if (clipboardText.StartsWith("https://www.youtube.com/watch?v")
+					|| clipboardText.StartsWith("https://youtu.be/"))
 					urlTextBox.Text = clipboardText;
 			}
 		}

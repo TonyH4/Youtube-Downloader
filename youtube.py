@@ -245,6 +245,9 @@ convert._command = 'ffmpeg -loglevel quiet -n -i "{0}" -ss {3} {4} -f {1} "{2}"'
 
 def parseVideoId(url: str):
     parse = urlparse(url)
+    if parse.netloc == 'youtu.be' and len(parse.path) > 0:
+        return parse.path[1:]
+
     if not parse.netloc.endswith('youtube.com') or parse.path != '/watch':
         raise ValueError('invalid video URL')
 
