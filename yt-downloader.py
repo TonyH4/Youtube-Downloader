@@ -46,12 +46,12 @@ def menu(prompt: str, options: "list of pairs(string, function); "
     return True
 
 
-def work_on_song(videoId: str, filename: str, need_convert: bool):
+def work_on_song(videoId: str, filename: str, target_format):
     song = None
     try:
         song = youtube.download_audio(videoId)
         target_filename = filename.replace('*', youtube.make_filename(song[0]))
-        if not need_convert:
+        if song[2] == target_format:
             shutil.move(song[1], target_filename)
         else:
             youtube.convert(song[1], target_filename)
@@ -178,10 +178,9 @@ def dl_playlist(playlistId: str='', filename: str=None):
                 else:
                     break
 
-            need_convert = (target_format != youtube.download_audio.output_format)
             filename = filename.replace('?', playlistTitle)
             print("Downloading songs...")
-            pool.map(functools.partial(work_on_song, filename=filename, need_convert=need_convert), playlist)
+            pool.map(functools.partial(work_on_song, filename=filename, target_format=target_format), playlist)
             print("Done. {0}/{1} succeeded".format(work_on_song.success_count, len(playlist)))
             return True
 

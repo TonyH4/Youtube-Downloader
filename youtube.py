@@ -54,7 +54,7 @@ def download_audio(videoId: str, filename: str=""):
     Returns pair(video title, name of the file written)."""
 
     if filename == "":
-        tmp = mkstemp('.' + download_audio.output_format)
+        tmp = mkstemp()
         os.close(tmp[0])
         os.remove(tmp[1])
         filename = tmp[1]
@@ -62,15 +62,9 @@ def download_audio(videoId: str, filename: str=""):
         raise IOError("the file already exists")
 
     video = pafy.new(videoId)
-    for stream in video.audiostreams:
-        if str(stream).find(download_audio.output_format) > 0:
-            stream.download(filename, quiet=True)
-            return video.title, filename
-
-    raise RuntimeError("No " + download_audio.output_format + " audio found for video " + video.videoid)
-
-
-download_audio.output_format = 'ogg'
+    stream = max(video.audiostreams, key=lambda s: s.rawbitrate)
+    stream.download(filename, quiet=True)
+    return video.title, filename, stream.extension
 
 
 def get_playlist(playlistId: str):

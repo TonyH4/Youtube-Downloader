@@ -17,7 +17,6 @@ namespace yt_downloader
 			this.WindowState = FormWindowState.Normal;
 			this.StartPosition = FormStartPosition.Manual;
 			this.Location = Settings.Default.WindowPosition;
-
 			this.Size = Settings.Default.WindowSize;
 
 			pathTextBox.Text = folderBrowserDialog1.SelectedPath = Settings.Default.Path;
