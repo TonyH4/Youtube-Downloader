@@ -108,16 +108,24 @@ namespace yt_downloader
 
 		private void mainWindow_Resize(object sender, EventArgs e)
 		{
-			Form form = sender as Form;
-			Settings.Default.WindowSize = form.Size;
-			Settings.Default.Save();
+			try
+			{
+				Form form = sender as Form;
+				Settings.Default.WindowSize = form.Size;
+				Settings.Default.Save();
+			}
+			catch (Exception) { }
 		}
 
 		private void mainWindow_Move(object sender, EventArgs e)
 		{
-			Form form = sender as Form;
-			Settings.Default.WindowPosition = form.Location;
-			Settings.Default.Save();
+			try
+			{
+				Form form = sender as Form;
+				Settings.Default.WindowPosition = form.Location;
+				Settings.Default.Save();
+			}
+			catch (Exception) { }
 		}
 	}
 }
